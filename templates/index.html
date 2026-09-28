@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Software Requirement Analyzer</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <h1>Software Requirement Analyzer</h1>
+        <p>Analyze and document software requirements intelligently.</p>
+    </header>
+
+
+    <main>
+
+        <section class="input-section">
+
+            <h2>Enter Software Requirement</h2>
+
+            <textarea
+                id="requirement"
+                placeholder="Example: Students should be able to login, view assignments and receive notifications before deadlines."
+            ></textarea>
+
+            <button onclick="analyzeRequirement()">
+                Analyze Requirement
+            </button>
+
+        </section>
+
+
+        <section id="results" class="results-section">
+
+            <h2>Analysis Results</h2>
+
+            <div id="resultContent">
+                <p>Your analysis will appear here.</p>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
