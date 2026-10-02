@@ -6,8 +6,8 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: #f4f7fb;
-    color: #1f2937;
+    background: #fff7f2;
+    color: #292524;
     min-height: 100vh;
 }
 
@@ -17,20 +17,22 @@ body {
 ========================= */
 
 header {
-    background: linear-gradient(135deg, #4f46e5, #7c3aed);
-    color: white;
+    background: #292524;
+    color: #fff7f2;
     text-align: center;
-    padding: 55px 20px;
+    padding: 60px 20px;
+    border-bottom: 5px solid #f97360;
 }
 
 header h1 {
-    font-size: 38px;
+    font-size: 40px;
     margin-bottom: 12px;
+    letter-spacing: -1px;
 }
 
 header p {
     font-size: 17px;
-    opacity: 0.9;
+    color: #fed7aa;
 }
 
 
@@ -41,7 +43,7 @@ header p {
 main {
     width: 90%;
     max-width: 1100px;
-    margin: 40px auto;
+    margin: 45px auto;
 }
 
 
@@ -51,42 +53,55 @@ main {
 
 .input-section,
 .results-section {
-    background: white;
-    border-radius: 16px;
-    padding: 30px;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 32px;
     margin-bottom: 30px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid #fed7aa;
+    box-shadow: 0 10px 30px rgba(41, 37, 36, 0.08);
 }
 
 .input-section h2,
 .results-section h2 {
     margin-bottom: 20px;
-    color: #111827;
+    color: #292524;
 }
+
+
+/* =========================
+   TEXTAREA
+========================= */
 
 textarea {
     width: 100%;
-    min-height: 180px;
+    min-height: 190px;
     padding: 18px;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
+    border: 2px solid #e7d7ce;
+    border-radius: 14px;
     resize: vertical;
     font-size: 16px;
     font-family: inherit;
     outline: none;
+    background: #fffaf7;
+    color: #292524;
 }
 
 textarea:focus {
-    border-color: #6366f1;
+    border-color: #f97360;
+    box-shadow: 0 0 0 3px rgba(249, 115, 96, 0.12);
 }
 
 
+/* =========================
+   BUTTON
+========================= */
+
 button {
     margin-top: 18px;
-    padding: 13px 25px;
+    padding: 14px 28px;
     border: none;
     border-radius: 10px;
-    background: #4f46e5;
+    background: #f97360;
     color: white;
     font-size: 16px;
     font-weight: bold;
@@ -95,18 +110,14 @@ button {
 }
 
 button:hover {
-    background: #4338ca;
-    transform: translateY(-1px);
+    background: #ea5b48;
+    transform: translateY(-2px);
 }
 
 
 /* =========================
-   RESULTS
+   RESULT GRID
 ========================= */
-
-.results-section {
-    min-height: 200px;
-}
 
 .result-grid {
     display: grid;
@@ -114,16 +125,21 @@ button:hover {
     gap: 20px;
 }
 
+
+/* =========================
+   RESULT CARDS
+========================= */
+
 .result-card {
-    background: #f8fafc;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 20px;
+    background: #fffaf7;
+    border: 1px solid #f5d0c5;
+    border-radius: 14px;
+    padding: 22px;
 }
 
 .result-card h3 {
-    margin-bottom: 12px;
-    color: #4f46e5;
+    margin-bottom: 14px;
+    color: #c2412d;
 }
 
 .result-card ul {
@@ -131,15 +147,21 @@ button:hover {
 }
 
 .result-card li {
-    margin-bottom: 8px;
+    margin-bottom: 9px;
+    line-height: 1.5;
 }
+
+
+/* =========================
+   PRIORITY
+========================= */
 
 .priority {
     display: inline-block;
-    padding: 7px 14px;
+    padding: 8px 16px;
     border-radius: 20px;
-    background: #ede9fe;
-    color: #5b21b6;
+    background: #ffedd5;
+    color: #9a3412;
     font-weight: bold;
 }
 
@@ -151,7 +173,7 @@ button:hover {
 @media (max-width: 700px) {
 
     header h1 {
-        font-size: 28px;
+        font-size: 30px;
     }
 
     main {
@@ -160,7 +182,7 @@ button:hover {
 
     .input-section,
     .results-section {
-        padding: 20px;
+        padding: 22px;
     }
 
     .result-grid {
