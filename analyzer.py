@@ -11,6 +11,8 @@ def analyze_requirement(requirement):
     inputs = []
     outputs = []
     missing_information = []
+    constraints = []
+
 
     # =====================================================
     # USERS / ACTORS
@@ -18,13 +20,26 @@ def analyze_requirement(requirement):
 
     user_keywords = {
         "student": "Student",
+        "students": "Student",
+
         "teacher": "Teacher",
+        "teachers": "Teacher",
+
         "admin": "Administrator",
         "administrator": "Administrator",
+        "administrators": "Administrator",
+
         "customer": "Customer",
+        "customers": "Customer",
+
         "user": "User",
+        "users": "User",
+
         "employee": "Employee",
-        "manager": "Manager"
+        "employees": "Employee",
+
+        "manager": "Manager",
+        "managers": "Manager"
     }
 
     for keyword, user in user_keywords.items():
@@ -47,11 +62,11 @@ def analyze_requirement(requirement):
 
         "find": "Topic/document search",
 
+        "check": "Information/topic checking",
+
         "understand": "Content understanding",
 
         "upload": "PDF/document upload",
-
-        "read": "Document reading",
 
         "extract": "Content extraction",
 
@@ -63,7 +78,11 @@ def analyze_requirement(requirement):
 
         "register": "User registration",
 
+        "signup": "User registration",
+
         "notification": "Notification system",
+
+        "notify": "Notification system",
 
         "report": "Report generation",
 
@@ -108,7 +127,8 @@ def analyze_requirement(requirement):
     if any(word in text for word in [
         "user",
         "student",
-        "teacher"
+        "teacher",
+        "customer"
     ]):
 
         inputs.append("User request")
@@ -130,7 +150,8 @@ def analyze_requirement(requirement):
     if any(word in text for word in [
         "search",
         "find",
-        "topic"
+        "topic",
+        "check"
     ]):
 
         outputs.append("Search result / topic availability")
@@ -193,6 +214,17 @@ def analyze_requirement(requirement):
 
 
     # =====================================================
+    # CONSTRAINTS
+    # =====================================================
+
+    if "pdf" in text:
+
+        constraints.append(
+            "The system should support PDF-based document processing."
+        )
+
+
+    # =====================================================
     # MISSING INFORMATION
     # =====================================================
 
@@ -203,7 +235,10 @@ def analyze_requirement(requirement):
         )
 
 
-    if any(word in text for word in ["pdf", "document"]):
+    if any(word in text for word in [
+        "pdf",
+        "document"
+    ]):
 
         if "upload" not in text:
 
@@ -251,7 +286,7 @@ def analyze_requirement(requirement):
 
 
     # =====================================================
-    # RETURN ANALYSIS
+    # RETURN RESULT
     # =====================================================
 
     return {
@@ -275,6 +310,9 @@ def analyze_requirement(requirement):
 
         "missing_information":
             missing_information,
+
+        "constraints":
+            constraints,
 
         "priority":
             priority
