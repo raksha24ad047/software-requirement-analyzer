@@ -1,24 +1,34 @@
 async function analyzeRequirement() {
 
-    const requirementInput = document.getElementById("requirement");
-    const resultContent = document.getElementById("resultContent");
+    const requirementInput =
+        document.getElementById("requirement");
 
-    const requirement = requirementInput.value.trim();
+    const resultContent =
+        document.getElementById("resultContent");
+
+    const requirement =
+        requirementInput.value.trim();
+
 
     if (!requirement) {
+
         resultContent.innerHTML = `
             <p>Please enter a software requirement first.</p>
         `;
+
         return;
     }
+
 
     resultContent.innerHTML = `
         <p>🔍 Analyzing requirement...</p>
     `;
 
+
     try {
 
         const response = await fetch("/analyze", {
+
             method: "POST",
 
             headers: {
@@ -30,21 +40,30 @@ async function analyzeRequirement() {
             })
         });
 
+
         const data = await response.json();
 
+
         if (!response.ok) {
+
             resultContent.innerHTML = `
                 <p>${data.error}</p>
             `;
+
             return;
         }
 
+
         displayResults(data);
+
 
     } catch (error) {
 
         resultContent.innerHTML = `
-            <p>Something went wrong while analyzing the requirement.</p>
+            <p>
+                Something went wrong while analyzing
+                the requirement.
+            </p>
         `;
 
         console.error(error);
@@ -52,70 +71,113 @@ async function analyzeRequirement() {
 }
 
 
+
+function createList(items) {
+
+    if (!items || items.length === 0) {
+
+        return "<li>None identified</li>";
+    }
+
+
+    return items
+        .map(item => `<li>${item}</li>`)
+        .join("");
+}
+
+
+
 function displayResults(data) {
 
-    const resultContent = document.getElementById("resultContent");
-
-
-    const createList = (items) => {
-
-        if (!items || items.length === 0) {
-            return "<li>None identified</li>";
-        }
-
-        return items.map(item => `<li>${item}</li>`).join("");
-    };
+    const resultContent =
+        document.getElementById("resultContent");
 
 
     resultContent.innerHTML = `
 
         <div class="result-grid">
 
+
             <div class="result-card">
+
                 <h3>👤 Users / Actors</h3>
+
                 <ul>
                     ${createList(data.users)}
                 </ul>
+
             </div>
 
 
             <div class="result-card">
+
                 <h3>⚙️ Functional Requirements</h3>
+
                 <ul>
-                    ${createList(data.functional_requirements)}
+                    ${createList(
+                        data.functional_requirements
+                    )}
                 </ul>
+
             </div>
 
 
             <div class="result-card">
+
                 <h3>🛡️ Non-Functional Requirements</h3>
+
                 <ul>
-                    ${createList(data.non_functional_requirements)}
+                    ${createList(
+                        data.non_functional_requirements
+                    )}
                 </ul>
+
             </div>
 
 
             <div class="result-card">
+
                 <h3>📥 Inputs</h3>
+
                 <ul>
                     ${createList(data.inputs)}
                 </ul>
+
             </div>
 
 
             <div class="result-card">
+
                 <h3>📤 Outputs</h3>
+
                 <ul>
                     ${createList(data.outputs)}
                 </ul>
+
             </div>
 
 
             <div class="result-card">
+
                 <h3>⚠️ Missing Information</h3>
+
                 <ul>
-                    ${createList(data.missing_information)}
+                    ${createList(
+                        data.missing_information
+                    )}
                 </ul>
+
+            </div>
+
+
+            <div class="result-card">
+
+                <h3>📌 Constraints</h3>
+
+                <ul>
+                    ${createList(data.constraints)}
+                </ul>
+
             </div>
 
 
@@ -128,6 +190,7 @@ function displayResults(data) {
                 </span>
 
             </div>
+
 
         </div>
     `;
