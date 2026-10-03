@@ -1,191 +1,90 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: Arial, sans-serif;
-    background: #fff7f2;
-    color: #292524;
-    min-height: 100vh;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 20px;
+    color: #333;
 }
 
-
-/* =========================
-   HEADER
-========================= */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
 
 header {
-    background: #292524;
-    color: #fff7f2;
     text-align: center;
-    padding: 60px 20px;
-    border-bottom: 5px solid #f97360;
-}
-
-header h1 {
-    font-size: 40px;
-    margin-bottom: 12px;
-    letter-spacing: -1px;
-}
-
-header p {
-    font-size: 17px;
-    color: #fed7aa;
-}
-
-
-/* =========================
-   MAIN
-========================= */
-
-main {
-    width: 90%;
-    max-width: 1100px;
-    margin: 45px auto;
-}
-
-
-/* =========================
-   INPUT SECTION
-========================= */
-
-.input-section,
-.results-section {
-    background: #ffffff;
-    border-radius: 18px;
-    padding: 32px;
-    margin-bottom: 30px;
-    border: 1px solid #fed7aa;
-    box-shadow: 0 10px 30px rgba(41, 37, 36, 0.08);
-}
-
-.input-section h2,
-.results-section h2 {
     margin-bottom: 20px;
-    color: #292524;
 }
 
-
-/* =========================
-   TEXTAREA
-========================= */
+.input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
 textarea {
     width: 100%;
-    min-height: 190px;
-    padding: 18px;
-    border: 2px solid #e7d7ce;
-    border-radius: 14px;
+    height: 120px;
+    padding: 12px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
     resize: vertical;
-    font-size: 16px;
-    font-family: inherit;
-    outline: none;
-    background: #fffaf7;
-    color: #292524;
 }
-
-textarea:focus {
-    border-color: #f97360;
-    box-shadow: 0 0 0 3px rgba(249, 115, 96, 0.12);
-}
-
-
-/* =========================
-   BUTTON
-========================= */
 
 button {
-    margin-top: 18px;
-    padding: 14px 28px;
-    border: none;
-    border-radius: 10px;
-    background: #f97360;
+    padding: 12px;
+    background-color: #007bff;
     color: white;
     font-size: 16px;
-    font-weight: bold;
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
-    transition: 0.2s;
 }
 
 button:hover {
-    background: #ea5b48;
-    transform: translateY(-2px);
+    background-color: #0056b3;
 }
 
-
-/* =========================
-   RESULT GRID
-========================= */
-
-.result-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+.hidden {
+    display: none !important;
 }
 
-
-/* =========================
-   RESULT CARDS
-========================= */
-
-.result-card {
-    background: #fffaf7;
-    border: 1px solid #f5d0c5;
-    border-radius: 14px;
-    padding: 22px;
-}
-
-.result-card h3 {
-    margin-bottom: 14px;
-    color: #c2412d;
-}
-
-.result-card ul {
-    padding-left: 20px;
-}
-
-.result-card li {
-    margin-bottom: 9px;
-    line-height: 1.5;
-}
-
-
-/* =========================
-   PRIORITY
-========================= */
-
-.priority {
-    display: inline-block;
-    padding: 8px 16px;
-    border-radius: 20px;
-    background: #ffedd5;
-    color: #9a3412;
+#loading {
+    margin-top: 20px;
     font-weight: bold;
+    text-align: center;
+    color: #555;
 }
 
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+    margin-top: 25px;
+}
 
-/* =========================
-   MOBILE
-========================= */
+.card {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
 
-@media (max-width: 700px) {
+.card h3 {
+    margin-top: 0;
+    color: #007bff;
+}
 
-    header h1 {
-        font-size: 30px;
-    }
+.warning-card h3 {
+    color: #d9534f;
+}
 
-    main {
-        width: 94%;
-    }
+ul {
+    padding-left: 20px;
+    margin-bottom: 0;
+}
 
-    .input-section,
-    .results-section {
-        padding: 22px;
-    }
-
-    .result-grid {
-        grid-template-columns: 1fr;
-    }
+li {
+    margin-bottom: 6px;
 }
