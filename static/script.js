@@ -1,197 +1,58 @@
-async function analyzeRequirement() {
+async function runAnalysis() {
+    const input = document.getElementById("ideaInput").value;
+    const loading = document.getElementById("loading");
+    const resultsSection = document.getElementById("resultsSection");
 
-    const requirementInput =
-        document.getElementById("requirement");
-
-    const resultContent =
-        document.getElementById("resultContent");
-
-    const requirement =
-        requirementInput.value.trim();
-
-
-    if (!requirement) {
-
-        resultContent.innerHTML = `
-            <p>Please enter a software requirement first.</p>
-        `;
-
+    if (!input.trim()) {
+        alert("Please enter an app idea first.");
         return;
     }
 
-
-    resultContent.innerHTML = `
-        <p>🔍 Analyzing requirement...</p>
-    `;
-
+    loading.classList.remove("hidden");
+    resultsSection.classList.add("hidden");
 
     try {
-
         const response = await fetch("/analyze", {
-
             method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-                requirement: requirement
-            })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ idea: input })
         });
 
-
         const data = await response.json();
+        loading.classList.add("hidden");
 
-
-        if (!response.ok) {
-
-            resultContent.innerHTML = `
-                <p>${data.error}</p>
-            `;
-
+        if (data.error) {
+            alert(data.error);
             return;
         }
 
+        populateList("targetUsers", data.target_users);
+        populateList("inputs", data.inputs);
+        populateList("outputs", data.outputs);
+        populateList("functionalReqs", data.functional_requirements);
+        populateList("nonFunctionalReqs", data.non_functional_requirements);
+        populateList("constraints", data.constraints);
+        populateList("potentialChallenges", data.potential_challenges);
 
-        displayResults(data);
-
-
-    } catch (error) {
-
-        resultContent.innerHTML = `
-            <p>
-                Something went wrong while analyzing
-                the requirement.
-            </p>
-        `;
-
-        console.error(error);
+        resultsSection.classList.remove("hidden");
+    } catch (err) {
+        loading.classList.add("hidden");
+        alert("An error occurred while connecting to the server.");
     }
 }
 
-
-
-function createList(items) {
-
-    if (!items || items.length === 0) {
-
-        return "<li>None identified</li>";
+function populateList(elementId, items) {
+    const listElement = document.getElementById(elementId);
+    listElement.innerHTML = "";
+    if (items && items.length > 0) {
+        items.forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = item;
+            listElement.appendChild(li);
+        });
+    } else {
+        const li = document.createElement("li");
+        li.textContent = "None identified.";
+        listElement.appendChild(li);
     }
-
-
-    return items
-        .map(item => `<li>${item}</li>`)
-        .join("");
-}
-
-
-
-function displayResults(data) {
-
-    const resultContent =
-        document.getElementById("resultContent");
-
-
-    resultContent.innerHTML = `
-
-        <div class="result-grid">
-
-
-            <div class="result-card">
-
-                <h3>👤 Users / Actors</h3>
-
-                <ul>
-                    ${createList(data.users)}
-                </ul>
-
-            </div>
-
-
-            <div class="result-card">
-
-                <h3>⚙️ Functional Requirements</h3>
-
-                <ul>
-                    ${createList(
-                        data.functional_requirements
-                    )}
-                </ul>
-
-            </div>
-
-
-            <div class="result-card">
-
-                <h3>🛡️ Non-Functional Requirements</h3>
-
-                <ul>
-                    ${createList(
-                        data.non_functional_requirements
-                    )}
-                </ul>
-
-            </div>
-
-
-            <div class="result-card">
-
-                <h3>📥 Inputs</h3>
-
-                <ul>
-                    ${createList(data.inputs)}
-                </ul>
-
-            </div>
-
-
-            <div class="result-card">
-
-                <h3>📤 Outputs</h3>
-
-                <ul>
-                    ${createList(data.outputs)}
-                </ul>
-
-            </div>
-
-
-            <div class="result-card">
-
-                <h3>⚠️ Missing Information</h3>
-
-                <ul>
-                    ${createList(
-                        data.missing_information
-                    )}
-                </ul>
-
-            </div>
-
-
-            <div class="result-card">
-
-                <h3>📌 Constraints</h3>
-
-                <ul>
-                    ${createList(data.constraints)}
-                </ul>
-
-            </div>
-
-
-            <div class="result-card">
-
-                <h3>⭐ Priority</h3>
-
-                <span class="priority">
-                    ${data.priority}
-                </span>
-
-            </div>
-
-
-        </div>
-    `;
 }
