@@ -3,52 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Software Requirement Analyzer</title>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
-
-    <header>
-        <h1>Software Requirement Analyzer</h1>
-        <p>Analyze and document software requirements intelligently.</p>
-    </header>
-
-
-    <main>
+    <div class="container">
+        <header>
+            <h1>Software Requirement Analyzer</h1>
+            <p>Paste any product idea to extract functional/non-functional specs, constraints, inputs, outputs, and risk factors.</p>
+        </header>
 
         <section class="input-section">
-
-            <h2>Enter Software Requirement</h2>
-
-            <textarea
-                id="requirement"
-                placeholder="Example: Students should be able to login, view assignments and receive notifications before deadlines."
-            ></textarea>
-
-            <button onclick="analyzeRequirement()">
-                Analyze Requirement
-            </button>
-
+            <textarea id="ideaInput" placeholder="e.g., Farmers should know current tomato and potato prices across markets to find the highest bidder and maximize profit..."></textarea>
+            <button id="analyzeBtn" onclick="runAnalysis()">Analyze Idea</button>
         </section>
 
+        <div id="loading" class="hidden">Analyzing requirements... Please wait...</div>
 
-        <section id="results" class="results-section">
-
-            <h2>Analysis Results</h2>
-
-            <div id="resultContent">
-                <p>Your analysis will appear here.</p>
+        <section id="resultsSection" class="results-grid hidden">
+            <div class="card">
+                <h3>Target Users</h3>
+                <ul id="targetUsers"></ul>
             </div>
-
+            <div class="card">
+                <h3>Inputs</h3>
+                <ul id="inputs"></ul>
+            </div>
+            <div class="card">
+                <h3>Outputs</h3>
+                <ul id="outputs"></ul>
+            </div>
+            <div class="card">
+                <h3>Functional Requirements</h3>
+                <ul id="functionalReqs"></ul>
+            </div>
+            <div class="card">
+                <h3>Non-Functional Requirements</h3>
+                <ul id="nonFunctionalReqs"></ul>
+            </div>
+            <div class="card">
+                <h3>Constraints</h3>
+                <ul id="constraints"></ul>
+            </div>
+            <div class="card warning-card">
+                <h3>Potential Challenges</h3>
+                <ul id="potentialChallenges"></ul>
+            </div>
         </section>
-
-    </main>
-
+    </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-
 </body>
 </html>
