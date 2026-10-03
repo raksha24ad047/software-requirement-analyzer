@@ -1,319 +1,53 @@
-import re
-
-
-def analyze_requirement(requirement):
-
-    text = requirement.lower()
-
-    functional_requirements = []
-    non_functional_requirements = []
-    users = []
-    inputs = []
-    outputs = []
-    missing_information = []
-    constraints = []
-
-
-    # =====================================================
-    # USERS / ACTORS
-    # =====================================================
-
-    user_keywords = {
-        "student": "Student",
-        "students": "Student",
-
-        "teacher": "Teacher",
-        "teachers": "Teacher",
-
-        "admin": "Administrator",
-        "administrator": "Administrator",
-        "administrators": "Administrator",
-
-        "customer": "Customer",
-        "customers": "Customer",
-
-        "user": "User",
-        "users": "User",
-
-        "employee": "Employee",
-        "employees": "Employee",
-
-        "manager": "Manager",
-        "managers": "Manager"
-    }
-
-    for keyword, user in user_keywords.items():
-
-        if re.search(r"\b" + keyword + r"\b", text):
-
-            if user not in users:
-                users.append(user)
-
-
-    # =====================================================
-    # FUNCTIONAL REQUIREMENTS
-    # =====================================================
-
-    functional_patterns = {
-
-        "summar": "Document/topic summarization",
-
-        "search": "Search functionality",
-
-        "find": "Topic/document search",
-
-        "check": "Information/topic checking",
-
-        "understand": "Content understanding",
-
-        "upload": "PDF/document upload",
-
-        "extract": "Content extraction",
-
-        "download": "Download functionality",
-
-        "view": "Content viewing",
-
-        "login": "User login",
-
-        "register": "User registration",
-
-        "signup": "User registration",
-
-        "notification": "Notification system",
-
-        "notify": "Notification system",
-
-        "report": "Report generation",
-
-        "track": "Tracking functionality",
-
-        "filter": "Filtering functionality"
-    }
-
-
-    for keyword, feature in functional_patterns.items():
-
-        if keyword in text:
-
-            if feature not in functional_requirements:
-                functional_requirements.append(feature)
-
-
-    # =====================================================
-    # INPUTS
-    # =====================================================
-
-    if any(word in text for word in [
-        "pdf",
-        "document",
-        "file",
-        "material"
-    ]):
-
-        inputs.append("PDF / document")
-
-
-    if any(word in text for word in [
-        "topic",
-        "keyword",
-        "query",
-        "search"
-    ]):
-
-        inputs.append("Topic / search query")
-
-
-    if any(word in text for word in [
-        "user",
-        "student",
-        "teacher",
-        "customer"
-    ]):
-
-        inputs.append("User request")
-
-
-    # =====================================================
-    # OUTPUTS
-    # =====================================================
-
-    if any(word in text for word in [
-        "summar",
-        "overview",
-        "understand"
-    ]):
-
-        outputs.append("Generated summary / overview")
-
-
-    if any(word in text for word in [
-        "search",
-        "find",
-        "topic",
-        "check"
-    ]):
-
-        outputs.append("Search result / topic availability")
-
-
-    if "extract" in text:
-
-        outputs.append("Extracted document content")
-
-
-    # =====================================================
-    # NON-FUNCTIONAL REQUIREMENTS
-    # =====================================================
-
-    if any(word in text for word in [
-        "secure",
-        "security",
-        "password",
-        "privacy"
-    ]):
-
-        non_functional_requirements.append("Security")
-
-
-    if any(word in text for word in [
-        "fast",
-        "quick",
-        "quickly",
-        "performance"
-    ]):
-
-        non_functional_requirements.append("Performance")
-
-
-    if any(word in text for word in [
-        "easy",
-        "simple",
-        "user-friendly",
-        "understand"
-    ]):
-
-        non_functional_requirements.append("Usability")
-
-
-    if any(word in text for word in [
-        "accurate",
-        "accuracy",
-        "correct"
-    ]):
-
-        non_functional_requirements.append("Accuracy")
-
-
-    if any(word in text for word in [
-        "mobile",
-        "responsive"
-    ]):
-
-        non_functional_requirements.append("Responsive design")
-
-
-    # =====================================================
-    # CONSTRAINTS
-    # =====================================================
-
-    if "pdf" in text:
-
-        constraints.append(
-            "The system should support PDF-based document processing."
-        )
-
-
-    # =====================================================
-    # MISSING INFORMATION
-    # =====================================================
-
-    if not users:
-
-        missing_information.append(
-            "The intended user/actor is not clearly specified."
-        )
-
-
-    if any(word in text for word in [
-        "pdf",
-        "document"
-    ]):
-
-        if "upload" not in text:
-
-            missing_information.append(
-                "The method for providing the PDF/document is not specified."
-            )
-
-
-    if "summar" in text:
-
-        missing_information.append(
-            "The required summary format and level of detail are not specified."
-        )
-
-
-    if "search" in text:
-
-        missing_information.append(
-            "The expected search behavior and result format are not specified."
-        )
-
-
-    if "topic" in text:
-
-        missing_information.append(
-            "The system behavior when a topic is not found is not specified."
-        )
-
-
-    # =====================================================
-    # PRIORITY
-    # =====================================================
-
-    if len(functional_requirements) >= 4:
-
-        priority = "High"
-
-    elif len(functional_requirements) >= 2:
-
-        priority = "Medium"
-
-    else:
-
-        priority = "Low"
-
-
-    # =====================================================
-    # RETURN RESULT
-    # =====================================================
-
-    return {
-
-        "requirement": requirement,
-
-        "functional_requirements":
-            functional_requirements,
-
-        "non_functional_requirements":
-            non_functional_requirements,
-
-        "users":
-            users,
-
-        "inputs":
-            inputs,
-
-        "outputs":
-            outputs,
-
-        "missing_information":
-            missing_information,
-
-        "constraints":
-            constraints,
-
-        "priority":
-            priority
-    }
+import os
+import json
+import google.generativeai as genai
+from dotenv import load_dotenv
+
+load_dotenv()
+
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+PROMPT_TEMPLATE = """
+You are an expert Software Requirements Engineer.
+Analyze the following app idea and provide a comprehensive Software Requirement Specification (SRS) breakdown.
+
+App Idea:
+"{idea_text}"
+
+Return ONLY a valid JSON object without markdown block markers (no ```json).
+The JSON object must strictly follow this key structure:
+
+{{
+  "target_users": ["List of target user roles/personas"],
+  "inputs": ["Data or actions the user/system inputs"],
+  "outputs": ["Data, alerts, or screens produced"],
+  "functional_requirements": ["Core features and operational tasks"],
+  "non_functional_requirements": ["Performance, security, scalability, usability specs"],
+  "constraints": ["Technical, budgetary, or platform limitations"],
+  "potential_challenges": ["Potential operational, technical, or adoption risks"]
+}}
+"""
+
+def analyze_idea(idea_text):
+    if not idea_text or not idea_text.strip():
+        return {"error": "App idea cannot be empty."}
+
+    model = genai.GenerativeModel("gemini-2.5-flash")
+    prompt = PROMPT_TEMPLATE.format(idea_text=idea_text)
+
+    try:
+        response = model.generate_content(prompt)
+        raw_text = response.text.strip()
+        
+        # Clean formatting tags if present
+        if raw_text.startswith("```json"):
+            raw_text = raw_text[7:]
+        if raw_text.startswith("```"):
+            raw_text = raw_text[3:]
+        if raw_text.endswith("```"):
+            raw_text = raw_text[:-3]
+            
+        data = json.loads(raw_text.strip())
+        return data
+    except Exception as e:
+        return {"error": f"Failed to analyze requirements: {str(e)}"}
